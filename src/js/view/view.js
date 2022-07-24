@@ -15,7 +15,6 @@ export const lottoHidden = isHidden => {
 }
 
 export const displayToggleBtn = state => {
-	debugger
 	if(state.lottoToggle) {
 		setHiddenNumber(true)
 	} else {
@@ -33,14 +32,13 @@ export const resetToggleBtn = () => {
 	$lottoToggleBtn.checked = false;
 }
 
-export const generateLottoTicket = (lottoNums) => {
+export const generateLottoTicketView = (lottoNums) => {
 	const $icon = document.createElement('li');
 	$icon.classList = 'mx-1 text-2xl';
 	$icon.innerText = '🎟️';
 	const $lottoNums = document.createElement('span');
 	$lottoNums.classList = 'lotto-numbers hidden-number'
 	$lottoNums.innerText = Array.from(lottoNums).join(',');
-	// $lottoNums.setAttribute('hidden', true)
 
 	$icon.appendChild($lottoNums)
 	$lottoTickets.appendChild($icon)

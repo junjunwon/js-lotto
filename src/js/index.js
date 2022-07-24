@@ -2,7 +2,6 @@ import App from './app.js'
 
 new App(document.querySelector('#app'))
 
-//basic
 const $showResultButton = document.querySelector('.open-result-modal-button')
 const $modalClose = document.querySelector('.modal-close')
 const $modal = document.querySelector('.modal')

@@ -17,7 +17,6 @@ export default class component {
 	mounted() {};
 	template() {return '';}
 	render() {
-		// this.$target.innerHTML = this.template();
 		this.mounted();
 	}
 	initState() {
