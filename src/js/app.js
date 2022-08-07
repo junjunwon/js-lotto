@@ -5,6 +5,7 @@ import {validationFor1000Unit} from "./utils/validation.js";
 import {generateLottoTicket} from "./utils/generate.js";
 import {PRICE_FOR_ONE} from './const/const.js';
 import {resetToggleBtn, displayLottoLabel, displayToggleBtn, lottoHidden, generateLottoTicketView, removeAllLottoTickets} from './view/view.js';
+import {isValDuplicate} from './utils/checkDuplicate.js';
 
 export default class App extends Component{
 
@@ -13,7 +14,9 @@ export default class App extends Component{
 			inputValue : 0,
 			lottoCnt : 0,
 			lottoToggle : false,
-			lottoList : []
+			lottoList : [],
+			winningNumbers : [],
+			bonusNumber : '',
 		}
 	}
 
@@ -21,7 +24,9 @@ export default class App extends Component{
 		const { setItemToggle } = this
 		const $inputMoneyForm = this.$target.querySelector('#input-money-form')
 		const $lottoToggleBtn = document.querySelector('.lotto-numbers-toggle-button')
+		const $prizeResultBtn = this.$target.querySelector('#prizeResultBtn');
 
+ 
 		/**
 		 * @todo : 별도의 함수로 빼서 addEventListener에 함수 등록하기.
 		 */
@@ -30,6 +35,9 @@ export default class App extends Component{
 			/**
 			 * @todo : 값을 입력하는 부분 분리
 			 */
+			new InputValue(event, {
+				
+			})
 			const $inputValue = event.target['inputMoney'].valueAsNumber;
 			const isUnit1000 = validationFor1000Unit($inputValue);
 			if(!isUnit1000) {
@@ -47,6 +55,17 @@ export default class App extends Component{
 
 			//generate lottoTicket and View
 			this.setLottoTicketAndView();			
+		})
+
+		$prizeResultBtn.addEventListener('submit', event => {
+			event.preventDefault();
+
+			this.$state.winningNumbers = new FormData(event.target).getAll('winning-number')
+			this.$state.bonusNumber = event.target['bonusNumber'].value
+			this.$state.winningNumbers.push(this.$state.bonusNumber)
+
+			const check = isValDuplicate(this.$state.winningNumbers)
+			if(check) alert('중복된 당첨번호가 있습니다.');
 		})
 
 		new ItemToggle($lottoToggleBtn, {
@@ -79,6 +98,9 @@ export default class App extends Component{
 			this.$state.lottoList.push(lottoNums);
 			i++;
 		}
+		
+	}
+	getWinningNumbers = (e, index) => {
 		
 	}
 } 

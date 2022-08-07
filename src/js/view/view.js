@@ -1,5 +1,4 @@
 
-const $lottoTicketList = document.querySelector('.lotto-ticket-list')
 const $lottoCountLabel = document.querySelector('.lotto-count-label')
 const $lottoToggleBtn = document.querySelector('.lotto-numbers-toggle-button')
 const $lottoHidden = document.querySelector('.lotto-hidden')
@@ -23,10 +22,7 @@ export const displayToggleBtn = state => {
 	
 }
 export const removeAllLottoTickets = () => {
-	while($lottoTickets.hasChildNodes()) {
-		$lottoTickets.removeChild($lottoTickets.firstChild);
-	}
-	
+	$lottoTickets.innerHTML = '';
 }
 export const resetToggleBtn = () => {
 	$lottoToggleBtn.checked = false;
