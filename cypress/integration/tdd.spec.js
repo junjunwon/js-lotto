@@ -59,9 +59,7 @@ describe("로또 Step2 && 당첨 항목", () => {
 		//모달 출력 버튼을 클릭했을떄 중복 에러 alert을 발생한다.
 		const alertStub = cy.stub();
 		cy.on("window:alert", alertStub);
-		// cy.showPrizeModal()
-		cy.get('#prizeResultBtn')
-			.submit()
+		cy.showPrizeModal()
 			.then(() => {
 				expect(alertStub.getCall(0)).to.be.calledWith(
           NOTICE_MESSAGES.NAME.DUPPLICATE_WIN_NUMS
@@ -70,7 +68,7 @@ describe("로또 Step2 && 당첨 항목", () => {
 	})
 
 	it("결과 확인하기 버튼을 누르면 당첨 통계, 수익률을 모달로 확인할 수 있다.", () => {
-		cy.showPrizeModal()
+		cy.get('.open-result-modal-button').click();
 		cy.get('#prizeModal').should("be.visible");
 	})
 

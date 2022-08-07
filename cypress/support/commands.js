@@ -25,7 +25,7 @@
 // Cypress.Commands.overwrite('visit', (originalFn, url, options) => { ... })
 
 Cypress.Commands.add("showPrizeModal", () => {
-	cy.get('#prizeResultBtn').click();
+	cy.get('#prizeResultBtn').submit();
 })
 
 Cypress.Commands.add("restartLotto", () => {
