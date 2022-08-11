@@ -3,7 +3,7 @@ import InputValue from "./components/InputValue.js";
 import ItemToggle from "./components/ItemToggle.js";
 import {validationFor1000Unit} from "./utils/validation.js";
 import {generateLottoTicket} from "./utils/generate.js";
-import {PRICE_FOR_ONE} from './const/const.js';
+import {PRICE_FOR_ONE, RANK_RESULT} from './const/const.js';
 import {resetToggleBtn, displayLottoLabel, displayToggleBtn, lottoHidden, generateLottoTicketView, removeAllLottoTickets} from './view/view.js';
 import {isValDuplicate} from './utils/checkDuplicate.js';
 
@@ -17,6 +17,7 @@ export default class App extends Component{
 			lottoList : [],
 			winningNumbers : [],
 			bonusNumber : '',
+			rewardList : []
 		}
 	}
 
@@ -61,11 +62,18 @@ export default class App extends Component{
 			event.preventDefault();
 
 			this.$state.winningNumbers = new FormData(event.target).getAll('winning-number')
-			this.$state.bonusNumber = event.target['bonusNumber'].value
-			this.$state.winningNumbers.push(this.$state.bonusNumber)
+			// this.$state.bonusNumber = event.target['bonusNumber'].valueAsNumber
+			this.$state.winningNumbers = this.$state.winningNumbers.map((i) => Number(i));
+			// this.$state.winningNumbers.push(this.$state.bonusNumber)
 
 			const check = isValDuplicate(this.$state.winningNumbers)
-			if(check) alert('중복된 당첨번호가 있습니다.');
+			if(check) {
+				alert('중복된 당첨번호가 있습니다.');
+				return;
+			}
+			this.setRewardList()
+			
+			console.log(this.$state.rewardList)
 		})
 
 		new ItemToggle($lottoToggleBtn, {
@@ -98,6 +106,15 @@ export default class App extends Component{
 			this.$state.lottoList.push(lottoNums);
 			i++;
 		}
+		
+	}
+	setRewardList() {
+		this.$state.lottoList.forEach((lottos) => {	
+			const rewardList = lottos.filter(lotto => this.$state.winningNumbers.includes(lotto));
+			this.$state.rewardList.push(rewardList.length);
+		})
+	}
+	getTotalRate() {
 		
 	}
 	getWinningNumbers = (e, index) => {
