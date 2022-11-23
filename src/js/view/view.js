@@ -4,9 +4,14 @@ const $lottoToggleBtn = document.querySelector('.lotto-numbers-toggle-button')
 const $lottoHidden = document.querySelector('.lotto-hidden')
 const $lottoTickets = document.getElementById('lotto-ticket-list');
 let $lottoNums = document.getElementsByClassName('lotto-numbers');
+const $resultTable = document.querySelector('.result-table');
 
 export const displayLottoLabel = lottoCntLabel => {
 	$lottoCountLabel.innerText = `총${lottoCntLabel}개의 복권을 구입했습니다.`
+}
+
+export const setViewResultTable = () => {
+	console.log($resultTable.getElementsByTagName('tbody')[0])
 }
 
 export const lottoHidden = isHidden => {

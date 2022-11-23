@@ -4,7 +4,10 @@ import ItemToggle from "./components/ItemToggle.js";
 import {validationFor1000Unit} from "./utils/validation.js";
 import {generateLottoTicket} from "./utils/generate.js";
 import {PRICE_FOR_ONE, RANK_RESULT} from './const/const.js';
-import {resetToggleBtn, displayLottoLabel, displayToggleBtn, lottoHidden, generateLottoTicketView, removeAllLottoTickets} from './view/view.js';
+import {resetToggleBtn, displayLottoLabel, 
+	displayToggleBtn, lottoHidden, setViewResultTable,
+	generateLottoTicketView, removeAllLottoTickets
+} from './view/view.js';
 import {isValDuplicate} from './utils/checkDuplicate.js';
 
 export default class App extends Component{
@@ -23,15 +26,16 @@ export default class App extends Component{
 
 	setEvent() {
 		const { setItemToggle } = this
-		const $inputMoneyForm = this.$target.querySelector('#input-money-form')
-		const $lottoToggleBtn = document.querySelector('.lotto-numbers-toggle-button')
+		const $inputMoneyForm = this.$target.querySelector('#input-money-form');
+		const $lottoToggleBtn = document.querySelector('.lotto-numbers-toggle-button');
 		const $prizeResultBtn = this.$target.querySelector('#prizeResultBtn');
-
+		const $resultTable = this.$target.querySelector('.result-table');
  
 		/**
 		 * @todo : 별도의 함수로 빼서 addEventListener에 함수 등록하기.
 		 */
 		$inputMoneyForm.addEventListener('submit', event => {
+			
 			event.preventDefault();
 			/**
 			 * @todo : 값을 입력하는 부분 분리
@@ -62,9 +66,9 @@ export default class App extends Component{
 			event.preventDefault();
 
 			this.$state.winningNumbers = new FormData(event.target).getAll('winning-number')
-			// this.$state.bonusNumber = event.target['bonusNumber'].valueAsNumber
+			this.$state.bonusNumber = event.target['bonusNumber'].valueAsNumber
 			this.$state.winningNumbers = this.$state.winningNumbers.map((i) => Number(i));
-			// this.$state.winningNumbers.push(this.$state.bonusNumber)
+			this.$state.winningNumbers.push(this.$state.bonusNumber)
 
 			const check = isValDuplicate(this.$state.winningNumbers)
 			if(check) {
@@ -72,7 +76,8 @@ export default class App extends Component{
 				return;
 			}
 			this.setRewardList()
-			
+			this.calculateStatics()
+			// setViewResultTable();
 			console.log(this.$state.rewardList)
 		})
 
@@ -117,7 +122,12 @@ export default class App extends Component{
 	getTotalRate() {
 		
 	}
-	getWinningNumbers = (e, index) => {
-		
+	calculateStatics() {
+		let resultStatics = 0;
+		this.$state.rewardList.forEach((rewardCnt) => {
+			resultStatics += ( rewardCnt / 6 ) * 100;
+			console.log(resultStatics)
+		})
+		console.log('final is ', resultStatics)
 	}
 } 
